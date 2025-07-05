@@ -2,8 +2,16 @@ import streamlit as st
 import requests
 import datetime
 
-# 1. Function to get unique AC submissions
-def get_unique_questions(username, days):
+# === Helper: Get this week's Monday 00:00 and Sunday 23:59:59 ===
+def get_week_bounds():
+    now = datetime.datetime.now()
+    monday = now - datetime.timedelta(days=now.weekday())
+    monday = monday.replace(hour=0, minute=0, second=0, microsecond=0)
+    sunday = monday + datetime.timedelta(days=6, hours=23, minutes=59, seconds=59)
+    return monday, sunday
+
+# === Core Function: Get unique questions in the current week ===
+def get_unique_questions_this_week(username):
     url = "https://leetcode.com/graphql/"
 
     headers = {
@@ -33,19 +41,20 @@ def get_unique_questions(username, days):
         response = requests.post(url, headers=headers, json=payload)
         data = response.json()
         submissions = data.get("data", {}).get("recentAcSubmissionList", [])
-    except Exception as e:
+    except Exception:
         return 0, []
 
-    cutoff = datetime.datetime.now() - datetime.timedelta(days=days)
+    monday, sunday = get_week_bounds()
+
     unique_titles = {
         s["title"]
         for s in submissions
-        if datetime.datetime.fromtimestamp(int(s["timestamp"])) >= cutoff
+        if monday.timestamp() <= int(s["timestamp"]) <= sunday.timestamp()
     }
 
     return len(unique_titles), list(unique_titles)
 
-# 2. List of group members
+# === Group Members ===
 members = [
     {"name": "Harshit", "username": "Harshit_Chaudhry"},
     {"name": "Krishna Mehta", "username": "_krishnamehta_"},
@@ -57,25 +66,33 @@ members = [
     {"name": "Yogesh", "username": "HY12925"},
 ]
 
-# 3. Streamlit UI
+# === Streamlit UI ===
 st.set_page_config(page_title="LeetCode Weekly Tracker", layout="centered")
 st.title("📊 LeetCode Weekly Tracker")
-days = st.slider("Select number of days to track", min_value=1, max_value=30, value=7)
+
+monday, sunday = get_week_bounds()
+st.caption(f"Tracking submissions from **{monday.strftime('%b %d, %Y')}** to **{sunday.strftime('%b %d, %Y')}**")
 
 leaderboard = []
 
-with st.spinner("Fetching data..."):
+with st.spinner("🔍 Fetching data from LeetCode..."):
     for member in members:
-        count, _ = get_unique_questions(member["username"], days)
+        count, _ = get_unique_questions_this_week(member["username"])
         leaderboard.append((member["name"], count))
 
 leaderboard.sort(key=lambda x: -x[1])
 
-st.success(f"Tracked progress for {len(members)} users over last {days} days.")
+st.success("✅ Fetched progress for all users.")
 st.markdown("### 🏆 Leaderboard")
-for i, (name, count) in enumerate(leaderboard, start=1):
-    st.write(f"**{i}. {name}** — ✅ {count} unique questions")
 
-# Optional: Show raw table
-if st.checkbox("Show full table"):
-    st.dataframe({name: count for name, count in leaderboard}, use_container_width=True)
+for i, (name, count) in enumerate(leaderboard, start=1):
+    st.write(f"**{i}. {name}** — ✅ {count} unique questions this week")
+
+if st.checkbox("Show full data table"):
+    st.dataframe(
+        {
+            "Name": [name for name, _ in leaderboard],
+            "Questions Solved": [count for _, count in leaderboard]
+        },
+        use_container_width=True
+    )
