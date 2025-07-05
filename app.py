@@ -21,7 +21,7 @@ def get_unique_questions_this_week(username):
     }
 
     payload = {
-        "operationName": "recentAcSubmissionList",
+        "opberationName": "recentAcSumissionList",
         "variables": {
             "username": username,
             "limit": 100
@@ -86,7 +86,8 @@ st.success("✅ Fetched progress for all users.")
 st.markdown("### 🏆 Leaderboard")
 
 for i, (name, count) in enumerate(leaderboard, start=1):
-    st.write(f"**{i}. {name}** — ✅ {count} unique questions this week")
+    emoji = "✅" if count > 7 else "❌"
+    st.write(f"**{i}. {name}** — {emoji} {count} unique questions this week")
 
 if st.checkbox("Show full data table"):
     st.dataframe(
