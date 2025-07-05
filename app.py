@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import datetime
 
-# === Helper: Get this week's Monday 00:00 and Sunday 23:59:59 ===
+# AABRA KA DAABRA
 def get_week_bounds():
     now = datetime.datetime.now()
     monday = now - datetime.timedelta(days=now.weekday())
@@ -10,7 +10,7 @@ def get_week_bounds():
     sunday = monday + datetime.timedelta(days=6, hours=23, minutes=59, seconds=59)
     return monday, sunday
 
-# === Core Function: Get unique questions in the current week ===
+
 def get_unique_questions_this_week(username):
     url = "https://leetcode.com/graphql/"
 
@@ -54,7 +54,7 @@ def get_unique_questions_this_week(username):
 
     return len(unique_titles), list(unique_titles)
 
-# === Group Members ===
+
 members = [
     {"name": "Harshit", "username": "Harshit_Chaudhry"},
     {"name": "Krishna Mehta", "username": "_krishnamehta_"},
@@ -66,7 +66,7 @@ members = [
     {"name": "Yogesh", "username": "HY12925"},
 ]
 
-# === Streamlit UI ===
+
 st.set_page_config(page_title="LeetCode Weekly Tracker", layout="centered")
 st.title("📊 LeetCode Weekly Tracker")
 
