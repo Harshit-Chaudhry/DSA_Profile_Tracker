@@ -10,7 +10,6 @@ def get_week_bounds():
     sunday = monday + datetime.timedelta(days=6, hours=23, minutes=59, seconds=59)
     return monday, sunday
 
-
 def get_unique_questions_this_week(username):
     url = "https://leetcode.com/graphql/"
 
@@ -54,7 +53,6 @@ def get_unique_questions_this_week(username):
 
     return len(unique_titles), list(unique_titles)
 
-
 members = [
     {"name": "Harshit", "username": "Harshit_Chaudhry"},
     {"name": "Krishna Mehta", "username": "_krishnamehta_"},
@@ -66,9 +64,12 @@ members = [
     {"name": "Yogesh", "username": "HY12925"},
 ]
 
-
 st.set_page_config(page_title="LeetCode Weekly Tracker", layout="centered")
 st.title("📊 LeetCode Weekly Tracker")
+
+
+st.warning("⚠️ **Disclaimer:** All members must solve at least **7 unique questions** this week. "
+           "Failure to do so will result in **removal** from the community.")
 
 monday, sunday = get_week_bounds()
 st.caption(f"Tracking submissions from **{monday.strftime('%b %d, %Y')}** to **{sunday.strftime('%b %d, %Y')}**")
@@ -86,13 +87,15 @@ st.success("✅ Fetched progress for all users.")
 st.markdown("### 🏆 Leaderboard")
 
 for i, (name, count) in enumerate(leaderboard, start=1):
-    st.write(f"**{i}. {name}** — ✅ {count} unique questions this week")
+    status_icon = "✅" if count >= 7 else "❌"
+    st.write(f"**{i}. {name}** — {status_icon} {count} unique questions this week")
 
 if st.checkbox("Show full data table"):
     st.dataframe(
         {
             "Name": [name for name, _ in leaderboard],
-            "Questions Solved": [count for _, count in leaderboard]
+            "Questions Solved": [count for _, count in leaderboard],
+            "Status": ["✅" if count >= 7 else "❌" for _, count in leaderboard]
         },
         use_container_width=True
     )
