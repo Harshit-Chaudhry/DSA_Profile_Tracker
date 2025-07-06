@@ -70,6 +70,10 @@ members = [
 st.set_page_config(page_title="LeetCode Weekly Tracker", layout="centered")
 st.title("📊 LeetCode Weekly Tracker")
 
+# ⛔ Disclaimer message
+st.warning("⚠️ **Disclaimer:** All members must solve at least 7 unique questions this week. "
+           "Failure to do so will result in removal from the community.")
+
 monday, sunday = get_week_bounds()
 st.caption(f"Tracking submissions from **{monday.strftime('%b %d, %Y')}** to **{sunday.strftime('%b %d, %Y')}**")
 
