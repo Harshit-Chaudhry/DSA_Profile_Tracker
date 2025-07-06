@@ -64,19 +64,19 @@ members = [
     {"name": "Yogesh", "username": "HY12925"},
 ]
 
-# 🖥️ Streamlit App
+
 st.set_page_config(page_title="LeetCode Weekly Tracker", layout="centered")
 st.title("📊 LeetCode Weekly Tracker")
 
-# ⚠️ Disclaimer
+
 st.warning("⚠️ **Disclaimer:** All members must solve at least **7 unique questions** this week. "
            "Failure to do so will result in **removal** from the community.")
 
-# ⏳ Week Range
+
 monday, sunday = get_week_bounds()
 st.caption(f"Tracking submissions from **{monday.strftime('%b %d, %Y')}** to **{sunday.strftime('%b %d, %Y')}**")
 
-# 📥 Fetch Data
+
 leaderboard = []
 
 with st.spinner("🔍 Fetching data from LeetCode..."):
@@ -84,18 +84,18 @@ with st.spinner("🔍 Fetching data from LeetCode..."):
         count, _ = get_unique_questions_this_week(member["username"])
         leaderboard.append((member["name"], count))
 
-# 🧮 Sort by most solved
+
 leaderboard.sort(key=lambda x: -x[1])
 
 st.success("✅ Fetched progress for all users.")
 st.markdown("### 🏆 Leaderboard")
 
-# 🏆 Display Leaderboard with ✅ / ❌
+
 for i, (name, count) in enumerate(leaderboard, start=1):
     status_icon = "✅" if count >= 7 else "❌"
     st.write(f"**{i}. {name}** — {status_icon} {count} unique questions this week")
 
-# 📊 Optional Full Data Table
+
 if st.checkbox("Show full data table"):
     st.dataframe(
         {
