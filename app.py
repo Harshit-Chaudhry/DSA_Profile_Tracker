@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import datetime
 
+LIMIT=5
 # AABRA KA DAABRA
 def get_week_bounds():
     now = datetime.datetime.now()
@@ -69,7 +70,7 @@ st.set_page_config(page_title="LeetCode Weekly Tracker", layout="centered")
 st.title("📊 LeetCode Weekly Tracker")
 
 
-st.warning("⚠️ **Disclaimer:** All members must solve at least **7 unique questions** this week. "
+st.warning(f"⚠️ **Disclaimer:** All members must solve at least **{LIMIT} unique questions** this week. "
            "Failure to do so will result in **removal** from the community.")
 
 
@@ -92,7 +93,7 @@ st.markdown("### 🏆 Leaderboard")
 
 
 for i, (name, count) in enumerate(leaderboard, start=1):
-    status_icon = "✅" if count >= 7 else "❌"
+    status_icon = "✅" if count >= LIMIT else "❌"
     st.write(f"**{i}. {name}** — {status_icon} {count} unique questions this week")
 
 
@@ -101,7 +102,16 @@ if st.checkbox("Show full data table"):
         {
             "Name": [name for name, _ in leaderboard],
             "Questions Solved": [count for _, count in leaderboard],
-            "Status": ["✅" if count >= 7 else "❌" for _, count in leaderboard]
+            "Status": ["✅" if count >= LIMIT else "❌" for _, count in leaderboard]
         },
         use_container_width=True
     )
+
+
+# 👣 Footer
+#st.markdown("""
+#---
+#<div style='text-align: center; font-size: 14px; color: gray;'>
+#    Created by <strong>Harshit</strong>
+#</div>
+#""", unsafe_allow_html=True)
