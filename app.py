@@ -55,7 +55,7 @@ def get_unique_questions_this_week(username):
     return len(unique_titles), list(unique_titles)
 
 members = [
-    {"name": "Harshit", "username": "Harshit_Chaudhry"},
+    {"name": "Harshit Chaudhary", "username": "Harshit_Chaudhry"},
     {"name": "Krishna Mehta", "username": "_krishnamehta_"},
     {"name": "Soumalya", "username": "froskersss"},
     {"name": "Ritesh Hooda", "username": "ritesh-251"},
