@@ -56,7 +56,7 @@ def get_unique_questions_this_week(username):
 
 members = [
     {"name": "Harshit Chaudhary", "username": "Harshit_Chaudhry"},
-    {"name": "Krishna Mehta", "username": "_krishnamehta_"},
+    {"name": "Krishna Mehta", "username": "Krishna-Mehta-135"},    # https://leetcode.com/u/Krishna-Mehta-135/
     {"name": "Soumalya", "username": "froskersss"},
     {"name": "Ritesh Hooda", "username": "ritesh-251"},
     {"name": "Alok", "username": "aloksingh98541"},
