@@ -61,7 +61,7 @@ members = [
     {"name": "Ritesh Hooda", "username": "ritesh-251"},
     {"name": "Alok", "username": "aloksingh98541"},
     # {"name": "Samim", "username": "samim020"},
-    # {"name": "Ashish Jha", "username": "ashishjha0125"},
+    {"name": "Ashish Jha", "username": "ashishjha0125"},
     {"name": "Yogesh", "username": "HY12925"},
     # {"name": "Dishu", "username": "dvsp1020"},
 ]
